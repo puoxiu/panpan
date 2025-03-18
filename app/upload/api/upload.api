@@ -1,0 +1,82 @@
+syntax = "v1"
+
+info (
+	title:   "PanPan/upload.api"
+	version: "1.0.0"
+)
+
+type (
+	// 上传文件（先存本地）
+	FileUploadReq {
+		// 上传文件的存储类型
+		CurrentStoreType int64 `form:"currentStoreType" validate:"required,in=1|2|3|4|5"`
+	}
+	// 秒转接口
+	TryFastUploadReq {
+		FileSha1 string `json:"fileSha1"`
+	}
+	// 初始化分块上传
+	InitialMultipartUploadReq {
+		FileSha1 string `json:"fileSha1"`
+		FileSize int64  `json:"fileSize"`
+	}
+	InitialMultipartUploadResp {
+		UserId     int64  `json:"userId"`
+		FileSha1   string `json:"fileSha1"`
+		FileSize   int64  `json:"fileSize"`
+		UploadID   string `json:"uploadId"`
+		ChunkSize  int64  `json:"chunkSize"`
+		ChunkCount int64  `json:"chunkCount"`
+	}
+	// 上传分块的文件
+	UploadPartReq {
+		UploadID   string `json:"uploadId"`
+		ChunkIndex int64  `json:"chunkIndex"`
+	}
+	// 合并分块的文件并且上传
+	CompleteUploadPartReq {
+		CurrentStoreType int64  `json:"currentStoreType" validate:"required,in=1|2|3|4|5"`
+		FileSha1         string `json:"fileSha1"`
+		FileName         string `json:"fileName"`
+		FileSize         int64  `json:"fileSize"`
+		UploadID         string `json:"uploadId"`
+		ChunkCount       int64  `json:"chunkCount"`
+	}
+)
+
+@server (
+	middleware: JWT // 路由中间件声明
+	prefix:     file
+)
+service upload-api {
+	@doc (
+		summary: "上传文件"
+	)
+	@handler fileUpload
+	post /upload (FileUploadReq)
+
+	@doc (
+		summary: "秒传文件"
+	)
+	@handler tryFastFileUpload
+	post /fastupload (TryFastUploadReq)
+
+	@doc (
+		summary: "初始化分块上传文件"
+	)
+	@handler initialMultipartUpload
+	post /multipartupload/init (InitialMultipartUploadReq) returns (InitialMultipartUploadResp)
+
+	@doc (
+		summary: "上传分块文件"
+	)
+	@handler uploadPart
+	post /multipartupload/uploadpart (UploadPartReq)
+
+	@doc (
+		summary: "合并分块文件并上传到相应存储"
+	)
+	@handler CompleteUploadPart
+	post /multipartupload/completeuploadpart (CompleteUploadPartReq)
+}
+
