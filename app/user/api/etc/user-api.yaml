@@ -1,3 +1,28 @@
 Name: user-api
 Host: 0.0.0.0
-Port: 8888
+Port: 8961
+
+
+Rpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+
+MysqlCluster:
+  DataSource: root:root@tcp(127.0.0.1:13316)/PanPan?charset=utf8mb4&parseTime=True&loc=Local
+  
+Github:
+  ClientID: "test_client_id"
+  RedirectUrl: "http://test.com"
+  ClientSecret: "test_client"
+
+CacheRedis:
+  - Host: 127.0.0.1:5379
+
+RedisCluster:
+  RedisClusters:
+    - "172.20.0.2:6380"
+    - "172.20.0.3:6381"
+    - "172.20.0.4:6382"

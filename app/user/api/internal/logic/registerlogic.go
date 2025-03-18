@@ -6,9 +6,11 @@ import (
 
 	"PanPan/app/user/api/internal/svc"
 	"PanPan/app/user/api/internal/types"
+	"PanPan/app/user/rpc/types/user"
 	"PanPan/common/errorx"
 	"PanPan/utils"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -41,6 +43,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.TokenResp,
 	if err != nil {
 		return nil, errors.Wrapf(err, "req: %+v", req)
 	}
+	// 生成jwt, 传入用户id、uuid用来
 	accessTokenString, refreshTokenString := utils.GetToken(cnt.UserId, uuid.New().String())
 	if accessTokenString == "" || refreshTokenString == "" {
 		return nil, errors.Wrapf(errorx.NewCodeError(100002, errorx.JWt), "生成jwt错误 err:%v", err)

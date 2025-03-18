@@ -2,6 +2,19 @@ version: '3.5'
 
 
 services:
+  etcd:
+    image: bitnami/etcd:latest
+    container_name: etcd
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    environment:
+      - ETCD_ENABLE_V2=true
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_NAME=etcd
+  
   mysql8:
     image: mysql:8.0.29
     restart: always
@@ -16,7 +29,7 @@ services:
     ports:
       #      注意这里映射为了 13316 端口
       - "13316:3306"
-      
+
   redis:
     image: 'bitnami/redis:latest'
     environment:

@@ -5,8 +5,14 @@ import (
 
 	"PanPan/app/user/api/internal/svc"
 	"PanPan/app/user/api/internal/types"
+	"PanPan/app/user/rpc/types/user"
+	"PanPan/common/errorx"
+	"PanPan/utils"
+
+	"fmt"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/pkg/errors"
 )
 
 type SendcodeLogic struct {
@@ -24,8 +30,18 @@ func NewSendcodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sendcode
 	}
 }
 
+// Sendcode 发送验证码 调用rpc服务
 func (l *SendcodeLogic) Sendcode(req *types.RegisterByPhoneRep) (resp *types.RegisterByPhoneResp, err error) {
-	// todo: add your logic here and delete this line
+	err = utils.DefaultGetValidParams(l.ctx, req)
+	if err != nil {
+		return nil, errorx.NewCodeError(100001, fmt.Sprintf("validate校验错误: %v", err))
+	}
 
-	return
+	cnt, err := l.svcCtx.Rpc.SendCode(l.ctx, &user.SendCodeReq{UserPhone: req.UserPhone})
+	if err != nil {
+		return nil, errors.Wrapf(err, "req: %+v", req)
+	}
+
+	return &types.RegisterByPhoneResp{VeCode: cnt.VeCode}, nil
+
 }

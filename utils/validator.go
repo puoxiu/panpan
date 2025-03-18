@@ -79,6 +79,7 @@ func TransInit(ctx context.Context) context.Context {
 	return ctx
 }
 
+// GetValidParams 用于获取参数并进行验证
 func DefaultGetValidParams(ctx context.Context, params interface{}) error {
 	ctx = TransInit(ctx)
 	err := validate(ctx, params)
@@ -92,14 +93,15 @@ func validate(ctx context.Context, params interface{}) error {
 	//获取验证器
 	val, ok := ctx.Value(ValidatorKey).(*validator.Validate)
 	if !ok {
-		return errors.New("Validator not found in context")
+		return errors.New("validator not found in context")
+			   
 	}
 
 	//获取翻译器
 	tran, ok := ctx.Value(TranslatorKey).(ut.Translator)
 
 	if !ok {
-		return errors.New("Translator not found in context")
+		return errors.New("translator not found in context")
 	}
 	err := val.Struct(params)
 	//如果数据效验不通过，则将所有err以切片形式输出
