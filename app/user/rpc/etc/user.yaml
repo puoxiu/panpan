@@ -1,0 +1,25 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8081
+
+# Etcd:
+#   Hosts:
+#   - 127.0.0.1:2379
+#   Key: user.rpc
+
+# 短信配置
+Credential:
+  SecretId: "test_secret_id"  
+  SecretKey: "test_secret_key"  
+
+MysqlCluster:
+  DataSource: root:root@tcp(127.0.0.1:13316)/PanPan?charset=utf8mb4&parseTime=True&loc=Local
+
+
+CacheRedis:
+  - Host: 127.0.0.1:5379
+
+RedisCluster:
+  RedisClusters:
+    - "172.20.0.2:6380"
+    - "172.20.0.3:6381"
+    - "172.20.0.4:6382"

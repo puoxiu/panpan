@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  redis-6380:
+    image: redis:latest
+    container_name: redis-6380
+    ports:
+      - "6380:6379"
+      - "16380:16379"
+    volumes:
+      - ./redis_cluster/conf/redis-6380.conf:/usr/local/etc/redis/redis.conf
+      - ./redis_cluster/data/redis-6380:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-cluster-net
+
+  redis-6381:
+    image: redis:latest
+    container_name: redis-6381
+    ports:
+      - "6381:6379"
+      - "16381:16379"
+    volumes:
+      - ./redis_cluster/conf/redis-6381.conf:/usr/local/etc/redis/redis.conf
+      - ./redis_cluster/data/redis-6381:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-cluster-net
+
+  redis-6382:
+    image: redis:latest
+    container_name: redis-6382
+    ports:
+      - "6382:6379"
+      - "16382:16379"
+    volumes:
+      - ./redis_cluster/conf/redis-6382.conf:/usr/local/etc/redis/redis.conf
+      - ./redis_cluster/data/redis-6382:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-cluster-net
+
+  # redis-6383:
+  #   image: redis:latest
+  #   container_name: redis-6383
+  #   ports:
+  #     - "6383:6379"
+  #     - "16383:16379"
+  #   volumes:
+  #     - ./conf/redis-6383.conf:/usr/local/etc/redis/redis.conf
+  #     - ./data/redis-6383:/data
+  #   command: redis-server /usr/local/etc/redis/redis.conf
+  #   networks:
+  #     - redis-cluster-net
+
+  # redis-6384:
+  #   image: redis:latest
+  #   container_name: redis-6384
+  #   ports:
+  #     - "6384:6379"
+  #     - "16384:16379"
+  #   volumes:
+  #     - ./conf/redis-6384.conf:/usr/local/etc/redis/redis.conf
+  #     - ./data/redis-6384:/data
+  #   command: redis-server /usr/local/etc/redis/redis.conf
+  #   networks:
+  #     - redis-cluster-net
+
+networks:
+  redis-cluster-net:
+    driver: bridge
+
+
+# 开发环境使用默认的网络bridge
