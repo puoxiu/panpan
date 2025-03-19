@@ -61,4 +61,4 @@ services:
       - minio-net
 
 networks:
-  minio-net:    
+  minio-net:
