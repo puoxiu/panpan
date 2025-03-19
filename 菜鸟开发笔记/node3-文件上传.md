@@ -12,29 +12,6 @@
 6. 判断文件保存方法：本地、cos、minio，调用对应rpc接口
 
 
-```mermaid
-graph TD
-    Start[开始] --> Init[初始化请求<br/>(API层)]
-    Init --> Generate[生成上传信息<br/>(RPC层)]
-    Generate --> RedisWrite[写入Redis<br/>(uploadID、分块信息)]
-    RedisWrite --> RespInit[返回初始化信息<br/>(前端)]
-    RespInit --> Upload[前端分片上传<br/>(分块文件+index)]
-    Upload --> CheckRedis{检查分块状态<br/>(Redis: 是否已上传?)}
-    CheckRedis -->|是| Skip[跳过<br/>(返回已上传)]
-    CheckRedis -->|否| SaveChunk[保存分块到本地<br/>(uploadID/index)]
-    SaveChunk --> UpdateRedis[更新Redis状态<br/>(标记已上传)]
-    UpdateRedis --> AllUploaded{所有分块上传完成?}
-    AllUploaded -->|否| Upload
-    AllUploaded -->|是| Merge[合并文件<br/>(检查完整性)]
-    Merge --> Storage{选择存储方式<br/>(本地/Cos/Minio)}
-    Storage --> Local[本地存储<br/>(直接保存)]
-    Storage --> Cos[调用Cos RPC<br/>(云存储)]
-    Storage --> Minio[调用Minio RPC<br/>(对象存储)]
-    Local --> Clean[清理临时文件<br/>(删除分块+Redis数据)]
-    Cos --> Clean
-    Minio --> Clean
-    Clean --> End[结束]
-```
 
 
 ## 文件妙传

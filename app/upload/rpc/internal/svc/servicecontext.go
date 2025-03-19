@@ -29,7 +29,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	mysqlDb.AutoMigrate(&model.UserFile{}, &model.File{})
 	conn := sqlx.NewMysql(c.MysqlCluster.DataSource)
 
-
 	// redis
 	rc := make([]string, 1)
 	rc = append(rc, c.RedisCluster.RedisClusters...)

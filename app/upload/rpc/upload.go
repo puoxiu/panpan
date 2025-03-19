@@ -8,10 +8,18 @@ import (
 	"PanPan/app/upload/rpc/internal/server"
 	"PanPan/app/upload/rpc/internal/svc"
 	"PanPan/app/upload/rpc/types/upload"
+	"PanPan/common/logs/zapx"
 	"PanPan/common/response/rpcserver"
 
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
+	"github.com/zeromicro/go-zero/rest/httpx"
+
+	"PanPan/common/errorx"
+	"context"
+	"net/http"
+
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -33,11 +41,22 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
-
+	defer s.Stop()
 	// 指定rpc log
 	s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 
-	defer s.Stop()
+	// 自定义错误
+	httpx.SetErrorHandlerCtx(func(ctx context.Context, err error) (int, interface{}) {
+		switch e := err.(type) {
+		case *errorx.CodeError:
+			return http.StatusOK, e.Data()
+		default:
+			return http.StatusInternalServerError, nil
+		}
+	})
+	writer, err := zapx.NewZapWriter()
+	logx.Must(err)
+	logx.SetWriter(writer)
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()

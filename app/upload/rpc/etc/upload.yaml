@@ -1,5 +1,5 @@
 Name: upload.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:8082
 Etcd:
   Hosts:
   - 127.0.0.1:2379
@@ -19,8 +19,16 @@ RedisCluster:
     - "172.20.0.4:6382"
   
 MinioCluster:
+  Endpoint: "127.0.0.1:9000"
+  AccessKey: "minioadmin"
+  SecretKey: "minioadmin"
 
 TencentCOS:
-  	Url: "https://"
-		SecretId: ""
-		SecretKey: ""
+  Url: "cos.ap-guangzhou.myqcloud.com"
+  SecretId: "your-secret-id"
+  SecretKey: "your-secret-key"
+
+KqPusherConf:
+  Brokers:
+    - "localhost:9092"
+  Topic: "panpan"

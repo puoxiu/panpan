@@ -28,7 +28,7 @@ type Options struct {
 type Batcher struct {
 	opts Options
 
-	Do       func(ctx context.Context, val map[string][]interface{}) // 处理批处理数据的函数
+	Do func(ctx context.Context, val map[string][]interface{}) // 处理批处理数据的函数
 
 
 	// 用于根据 key 进行分片的函数

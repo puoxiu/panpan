@@ -1,21 +1,19 @@
 # PanPan网盘项目
 
 
-## user
 
-rpc : 8081
-api : 8961
-
-## upload
-
-rpc : 8082
-api : 8962
 
 
 测试运行步骤：
-* docker启动redis
+* docker启动redis集群
 * docker启动mysql
+* 启动kafka
 * 启动user-rpc：go run user.go
+
+* docker启动minio集群 & Nginx
+* 启动upload-rpc：go run upload.go
+
+
 
 todo:
 * user-rpc的sms接口申请

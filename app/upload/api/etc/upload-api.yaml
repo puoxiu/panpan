@@ -1,3 +1,38 @@
 Name: upload-api
 Host: 0.0.0.0
-Port: 8888
+Port: 8962
+
+
+MysqlCluster:
+  DataSource: root:root@tcp(127.0.0.1:13316)/PanPan?charset=utf8mb4&parseTime=True&loc=Local
+
+
+CacheRedis:
+  - Host: 127.0.0.1:5379
+
+
+RedisCluster:
+  RedisClusters:
+    - "172.20.0.2:6380"
+    - "172.20.0.3:6381"
+    - "172.20.0.4:6382"
+
+MinioCluster:
+  Endpoint: "127.0.0.1:9000"
+  AccessKey: "minioadmin"
+  SecretKey: "minioadmin"
+
+
+TencentCOS:
+  Url: "cos.ap-guangzhou.myqcloud.com"
+  SecretId: "your-secret-id"
+  SecretKey: "your-secret-key"
+
+KqPusherConf:
+  Brokers:
+    - "kafka1:9092"
+    - "kafka2:9092"
+  Topic: "upload-topic"
+
+
+FileLocalPath: "/data/upload_files/"

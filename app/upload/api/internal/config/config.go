@@ -17,12 +17,7 @@ type Config struct {
 	}
 
 	RedisCluster struct {
-		Cluster1 string
-		Cluster2 string
-		Cluster3 string
-		Cluster4 string
-		Cluster5 string
-		Cluster6 string
+		RedisClusters []string
 	}
 
 	MinioCluster struct {
@@ -41,6 +36,6 @@ type Config struct {
 		Brokers []string
 		Topic   string
 	}
-	
+
 	FileLocalPath string
 }
