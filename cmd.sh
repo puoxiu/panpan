@@ -21,3 +21,9 @@ goctl model mysql ddl -src="file.sql" -dir="./" --cache=true --prefix="upload:"
 
 ## rpc
 goctl rpc protoc upload.proto --go_out=./types --go-grpc_out=./types --zrpc_out=. -home ../../../tamplate
+
+# kafka队列
+
+# 下载服务
+## api
+goctl api go -api download.api -dir ./ -home ../../../tamplate
