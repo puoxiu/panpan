@@ -20,7 +20,7 @@ func DownloadCOSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewDownloadCOSLogic(r.Context(), svcCtx)
-		err := l.DownloadCOS(&req)
+		err := l.DownloadCOS(&req, w, r)
 		response.HttpResponse(r, w, nil, err)
 	}
 }

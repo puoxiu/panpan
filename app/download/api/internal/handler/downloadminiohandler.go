@@ -20,7 +20,7 @@ func DownloadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewDownloadMinioLogic(r.Context(), svcCtx)
-		err := l.DownloadMinio(&req)
+		err := l.DownloadMinio(&req, w, r)
 		response.HttpResponse(r, w, nil, err)
 	}
 }
