@@ -29,7 +29,11 @@ type Batcher struct {
 	opts Options
 
 	Do       func(ctx context.Context, val map[string][]interface{}) // 处理批处理数据的函数
-	Sharding func(key string) int                                    // 用于根据 key 进行分片的函数
+
+
+	// 用于根据 key 进行分片的函数
+	// 传入 key，返回一个整数，用于确定数据应该发送到哪个批处理通道
+	Sharding func(key string) int                                    
 	chans    []chan *msg                                             // 批处理通道数组
 	wait     sync.WaitGroup                                          // 等待所有批处理协程完成的 WaitGroup
 }
@@ -61,6 +65,7 @@ func (b *Batcher) Start() {
 }
 
 // Add 添加一条 key-value 数据到批处理器
+// 相当于生产者
 func (b *Batcher) Add(key string, val interface{}) error {
 	ch, msg := b.add(key, val)
 	select {
@@ -72,6 +77,7 @@ func (b *Batcher) Add(key string, val interface{}) error {
 }
 
 // add 将 key-value 数据添加到相应的批处理通道中
+// 在panpan项目中是：userid -> userFile
 func (b *Batcher) add(key string, val interface{}) (chan *msg, *msg) {
 	sharding := b.Sharding(key) % b.opts.Worker
 	ch := b.chans[sharding]

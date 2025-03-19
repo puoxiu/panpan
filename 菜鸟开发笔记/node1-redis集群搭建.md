@@ -7,7 +7,7 @@
 * 当需要在 Redis 集群中放置一个 key-value 时，根据公式HASH_SLOT=CRC16(key) mod 16384的值，决定将一个key放到哪个槽中，查询同理
 
 步骤
-1. 配置docker-compose.yaml文件
+1. 配置docker-compose.yaml文件、docker-compose-redis.yaml文件
 2. 指定每个redis实例的配置文件，最好放到同目录下
 3. docker-compose -f ./docker-compose-redis.yaml up -d
 4. 如果没有配置redis的network 就是子网，需要查看每个实例的地址：

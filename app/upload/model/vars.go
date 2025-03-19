@@ -6,7 +6,7 @@ var ErrNotFound = sqlx.ErrNotFound
 
 
 
-// MultipartUploadInfo : 初始化信息
+// MultipartUploadInfo : 初始化信息, 用于初始化分块上传
 type MultipartUploadInfo struct {
 	FileSha1   string // 文件Sha1
 	FileSize   int64  // 文件大小

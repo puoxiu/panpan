@@ -20,7 +20,7 @@ func fileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewFileUploadLogic(r.Context(), svcCtx)
-		err := l.FileUpload(&req)
+		err := l.FileUpload(&req, w, r)
 		response.HttpResponse(r, w, nil, err)
 	}
 }

@@ -20,7 +20,7 @@ func uploadPartHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUploadPartLogic(r.Context(), svcCtx)
-		err := l.UploadPart(&req)
+		err := l.UploadPart(&req, w, r)
 		response.HttpResponse(r, w, nil, err)
 	}
 }

@@ -1,12 +1,15 @@
 # PanPan网盘项目
 
 
-
 ## user
 
 rpc : 8081
 api : 8961
 
+## upload
+
+rpc : 8082
+api : 8962
 
 
 测试运行步骤：
